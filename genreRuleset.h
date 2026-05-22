@@ -1,0 +1,12 @@
+#ifndef COURSE_PROJECT_GENRERULESET_H
+#define COURSE_PROJECT_GENRERULESET_H
+
+
+
+class genreRuleset {
+
+};
+
+
+
+#endif //COURSE_PROJECT_GENRERULESET_H

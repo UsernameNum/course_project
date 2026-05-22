@@ -1,0 +1,12 @@
+#ifndef COURSE_PROJECT_HARMONYENGINE_H
+#define COURSE_PROJECT_HARMONYENGINE_H
+
+
+
+class harmonyEngine {
+
+};
+
+
+
+#endif //COURSE_PROJECT_HARMONYENGINE_H
