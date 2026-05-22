@@ -4,6 +4,9 @@
 #include <utility>
 #include <vector>
 
+/*  0 1  2 3 4  5 6  7 8 9 10
+ *  a a# b c c# d d# e f g g#
+ */
 
 class chord {
 protected:
@@ -12,7 +15,7 @@ protected:
     std::vector<int> chordRule;
 public:
     chord() = default;
-    chord(std::string name, int root, std::vector<int> chord): chordName(std::move(name)), rootNote(root), chordRule(std::move(chord)) {}
+    chord(std::string name, int root, std::vector<int> chord);
 
     void complexityLogic(int level);
 };
