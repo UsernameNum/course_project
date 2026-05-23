@@ -14,12 +14,15 @@ public:
     genreRuleset() {
         chordLibrary["min"] = {0, 3, 7};
         chordLibrary["maj"] = {0, 4, 7};
-        chordLibrary["sus4"] = {0, 5, 7};
+        chordLibrary["dim7"] = {0, 3, 6, 9};
+        chordLibrary["min6"] = {0, 3, 7, 9};
         chordLibrary["min7"] = {0, 3, 7, 10};
-        chordLibrary["maj7"] = {0, 4, 7, 11};
         chordLibrary["7"] = {0, 4, 7, 10};
+        chordLibrary["maj7"] = {0, 4, 7, 11};
+        chordLibrary["m7b5"] = {0, 3, 6, 10};
     }
-    bool loadFromFile(std::string fileName);
+
+    bool loadFromFile(const std::string &fileName);
     std::vector<int> getType(std::string type);
     std::string getNextChord(std::string current);
 };

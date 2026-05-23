@@ -1,0 +1,19 @@
+[MINOR JAZZ]
+
+[CHORDS]
+i   = 0:min6
+ii  = 2:m7b5
+III = 3:maj7
+iv  = 5:min7
+V   = 7:7
+VI  = 8:maj7
+vii = 11:dim7
+
+[TRANSITIONS]
+i   -> VI:0.30, ii:0.25, iv:0.20, III:0.15, V:0.10
+ii  -> V:0.80, vii:0.10, i:0.10
+III -> VI:0.55, iv:0.20, ii:0.15, V:0.10
+iv  -> V:0.45, ii:0.25, i:0.20, vii:0.10
+V   -> i:0.60, VI:0.20, ii:0.10, III:0.10
+VI  -> ii:0.50, iv:0.20, V:0.15, III:0.10, i:0.05
+vii -> V:0.60, i:0.30, III:0.10

@@ -1,0 +1,19 @@
+[MAJOR JAZZ]
+
+[CHORDS]
+I   = 0:maj7
+ii  = 2:min7
+iii = 4:min7
+IV  = 5:maj7
+V   = 7:7
+vi  = 9:min7
+vii = 11:m7b5
+
+[TRANSITIONS]
+I   -> vi:0.35, ii:0.35, IV:0.10, iii:0.10, V:0.10
+ii  -> V:0.75, vii:0.10, iii:0.10, I:0.05
+iii -> vi:0.60, IV:0.15, ii:0.15, V:0.10
+IV  -> V:0.35, ii:0.25, vi:0.15, iii:0.15, vii:0.10
+V   -> I:0.55, vi:0.25, ii:0.10, iii:0.10
+vi  -> ii:0.55, IV:0.15, V:0.15, iii:0.10, I:0.05
+vii -> V:0.70, I:0.20, iii:0.10

@@ -4,9 +4,7 @@
 #include <fstream>
 #include <string>
 
-std::map <std::string, std::vector<int>> chordLibrary {
-
-};
+std::map <std::string, std::vector<int>> chordLibrary {};
 
 bool genreRuleset::loadFromFile(const std::string &fileName) {
     std::string fullFileName = "rules/" + fileName;

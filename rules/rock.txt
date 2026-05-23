@@ -1,0 +1,17 @@
+[ROCK]
+
+[CHORDS]
+I    = 0:5
+bIII = 3:5
+IV   = 5:5
+V    = 7:5
+bVI  = 8:5
+bVII = 10:5
+
+[TRANSITIONS]
+I    -> bIII:0.30, IV:0.30, bVII:0.20, I:0.20
+bIII -> I:0.45, IV:0.30, bVII:0.15, bIII:0.10
+IV   -> I:0.40, bIII:0.25, V:0.15, bVII:0.10, IV:0.10
+V    -> IV:0.35, bVI:0.20, I:0.20, bVII:0.15, V:0.10
+bVI  -> bVII:0.45, IV:0.20, I:0.20, V:0.15
+bVII -> I:0.55, IV:0.25, bVI:0.10, bVII:0.10

@@ -27,9 +27,9 @@ int main() {
     std::vector<int> notes = chC.getAbsoluteNotes();
     for (int note : notes) {
         std::cout << note << " ";
-    }
+    } std::cout << std::endl;
 
     genreRuleset jazz;
-    jazz.genreRuleset::loadFromFile("jazz_rules.txt");
+    jazz.loadFromFile("jazz_major.txt");
     return 0;
 }

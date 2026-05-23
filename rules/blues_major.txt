@@ -1,0 +1,13 @@
+[BLUES_MAJOR]
+
+[CHORDS]
+I    = 0:7
+IV   = 5:7
+V    = 7:7
+bVII = 10:7
+
+[TRANSITIONS]
+I    -> IV:0.50, bVII:0.25, V:0.15, I:0.10
+IV   -> I:0.60, V:0.30, bVII:0.10
+V    -> IV:0.60, I:0.30, bVII:0.10
+bVII -> I:0.60, IV:0.30, V:0.10
