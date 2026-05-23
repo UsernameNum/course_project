@@ -18,8 +18,6 @@ public:
         chordLibrary["min7"] = {0, 3, 7, 10};
         chordLibrary["maj7"] = {0, 4, 7, 11};
         chordLibrary["7"] = {0, 4, 7, 10};
-        chordLibrary["min9"] = {0, 3, 7, 14};
-        chordLibrary["9"] = {0, 4, 7, 14};
     }
     bool loadFromFile(std::string fileName);
     std::vector<int> getType(std::string type);

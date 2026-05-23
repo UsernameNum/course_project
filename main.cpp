@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "chord.h"
+#include "genreRuleset.h"
+
 /* Моделирование процесса подбора гармонии музыкальной композиции
  * chord:
  *  name
@@ -16,6 +19,17 @@
  */
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    chord chC("C", 3, {0,4,7});
+    chord chAm("A#m", 1, {0,3,7});
+
+    std::cout << "chord: " << chC.getName() << std::endl;
+    std::cout << "its absolute notes: " << std::endl;
+    std::vector<int> notes = chC.getAbsoluteNotes();
+    for (int note : notes) {
+        std::cout << note << " ";
+    }
+
+    genreRuleset jazz;
+    jazz.genreRuleset::loadFromFile("jazz_rules.txt");
     return 0;
 }
