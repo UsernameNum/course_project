@@ -4,8 +4,8 @@
 #include <utility>
 #include <vector>
 
-/*  0 1  2 3 4  5 6  7 8 9 10
- *  a a# b c c# d d# e f g g#
+/*  0  1  2  3  4  5  6  7  8  9  10 11
+ *  a  a# b  c  c# d  d# e  f  f# g  g#
  */
 
 class chord {
@@ -19,7 +19,5 @@ public:
 
     void complexityLogic(int level);
 };
-
-
 
 #endif //COURSE_PROJECT_CHORD_H

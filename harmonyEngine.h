@@ -7,9 +7,10 @@
 
 
 class harmonyEngine {
-    std::vector<chord> generate(genreRuleset rules, int length, int complexity);
-    int voiceLeading(std::vector<chord> progression);
-    void saveToFiles(std::vector<chord> progression, int bpm);
+public:
+    std::vector<chord> generate(const genreRuleset& rules, int length, int complexity);
+    int voiceLeading(const std::vector<chord>& progression);
+    void saveToFiles(const std::vector<chord>& progression, int bpm);
 };
 
 
