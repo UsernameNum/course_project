@@ -16,8 +16,3 @@ std::vector<int> chord::getAbsoluteNotes() const {
     }
     return absoluteNotes;
 }
-
-// количество изменений аккордов в зависимости от сложности (1-3)
-void complexityLogic(int level) {
-
-}

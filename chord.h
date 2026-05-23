@@ -18,7 +18,6 @@ public:
     std::string getName() { return chordName; }
 
     std::vector<int> getAbsoluteNotes() const;
-    void complexityLogic(int level);
 };
 
 #endif //COURSE_PROJECT_CHORD_H
