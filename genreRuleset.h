@@ -14,6 +14,7 @@ public:
     genreRuleset() {
         chordLibrary["min"] = {0, 3, 7};
         chordLibrary["maj"] = {0, 4, 7};
+        chordLibrary["dim"] = {0, 3, 6};
         chordLibrary["dim7"] = {0, 3, 6, 9};
         chordLibrary["min6"] = {0, 3, 7, 9};
         chordLibrary["min7"] = {0, 3, 7, 10};

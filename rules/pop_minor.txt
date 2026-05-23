@@ -1,0 +1,19 @@
+[POP_MINOR]
+
+[CHORDS]
+i    = 0:min
+ii   = 2:dim
+III  = 3:maj
+iv   = 5:min
+V    = 7:maj
+VI   = 8:maj
+VII  = 10:maj
+
+[TRANSITIONS]
+i    -> VI:0.34, VII:0.24, iv:0.20, III:0.12, V:0.10
+ii   -> V:0.50, VII:0.20, iv:0.15, i:0.15
+III  -> VII:0.30, VI:0.30, iv:0.20, i:0.20
+iv   -> VII:0.26, VI:0.24, i:0.24, V:0.16, iv:0.10
+V    -> i:0.44, VI:0.20, VII:0.16, iv:0.10, V:0.10
+VI   -> VII:0.30, i:0.24, III:0.22, iv:0.14, V:0.10
+VII  -> VI:0.30, i:0.24, III:0.20, iv:0.16, V:0.10
