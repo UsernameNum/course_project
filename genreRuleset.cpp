@@ -1,5 +1,9 @@
 #include "genreRuleset.h"
 
+std::map <std::string, std::vector<int>> chordLibrary {
+
+};
+
 bool loadFromFile(std::string fileName) {
 
 }

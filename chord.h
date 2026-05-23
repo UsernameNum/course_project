@@ -17,6 +17,7 @@ public:
     chord() = default;
     chord(std::string name, int root, std::vector<int> chord);
 
+    std::vector<int> getAbsoluteNotes();
     void complexityLogic(int level);
 };
 
