@@ -34,8 +34,15 @@ public:
     }
 
     bool loadFromFile(const std::string &fileName);
+
+    std::vector<int> getType(const std::string &type) const;
+
     std::vector<int> getType(const std::string &type);
-    std::string getNextChord(const std::string &current);
+
+    std::string getNextChord(const std::string &current) const;
+    std::string getClosingChord(const std::string &from, const std::string &to) const;
+
+    std::string getClosingChord(const std::string& from, const std::string& to);
 };
 
 #endif //COURSE_PROJECT_GENRERULESET_H

@@ -5,6 +5,7 @@
 #include "genreRuleset.h"
 
 class harmonyEngine {
+    std::string currentDegree = "I"; // первый элемент всегда тоника
 public:
     std::vector<chord> generate(const std::string &key = "", const genreRuleset &rules = {}, int length = 4);
     int voiceLeading(const std::vector<chord>& progression);

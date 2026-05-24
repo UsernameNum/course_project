@@ -83,18 +83,22 @@ bool genreRuleset::loadFromFile(const std::string &fileName) {
     return true;
 }
 
-std::vector<int> genreRuleset::getType(const std::string &type) {
-    if (chordLibrary.find(type) != chordLibrary.end()) { return chordLibrary[type]; }
-    return {};
+std::vector<int> genreRuleset::getType(const std::string &type) const {
+    auto it = chordLibrary.find(type);
+    if (it == chordLibrary.end()) return {};
+    return it->second;
 }
 
-std::string genreRuleset::getNextChord(const std::string &current) {
+std::string genreRuleset::getNextChord(const std::string &current) const {
         // если в рулсете не нашлось следующего аккорда, приходим в тонику
-    if (transitions.find(current) == transitions.end() || transitions[current].empty())
+    auto it = transitions.find(current);
+    if (it == transitions.end() || it->second.empty())
         { return "I"; }
         // {0.3, 0.3, 0.2, 0.2}
+    const auto& options = it->second;
     std::vector<double> weights;
-    for (const auto& t : transitions[current]) {
+    weights.reserve(options.size());
+    for (const auto& t : options) {
         weights.push_back(t.probability);
     }
         // генератор случайных чисел
@@ -104,5 +108,38 @@ std::string genreRuleset::getNextChord(const std::string &current) {
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
     int selectedIndex = dist(gen);
 
-    return transitions[current][selectedIndex].nextChord;
+    return options[selectedIndex].nextChord;
+}
+
+std::string genreRuleset::getClosingChord(const std::string& from, const std::string& to) const {
+    auto itFrom = transitions.find(from);
+    if (itFrom == transitions.end() || itFrom->second.empty()) {
+        return "I";
+    }
+
+    std::string bestCandidate = itFrom->second.front().nextChord;
+    double bestScore = -1.0;
+
+    for (const auto& cand : itFrom->second) {
+        const std::string& candidate = cand.nextChord;
+        double pPrevToCand = cand.probability;
+
+        // p(candidate -> to)
+        double pCandTo = 0.0;
+        auto itCand = transitions.find(candidate);
+        if (itCand != transitions.end()) {
+            for (const auto& t : itCand->second) {
+                if (t.nextChord == to) {
+                    pCandTo = t.probability;
+                    break;
+                }
+            }
+        }
+        double score = pPrevToCand * pCandTo;
+        if (score > bestScore) {
+            bestScore = score;
+            bestCandidate = candidate;
+        }
+    }
+    return bestCandidate;
 }
