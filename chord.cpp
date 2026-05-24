@@ -1,7 +1,7 @@
 #include <utility>
 #include "chord.h"
 
-// создание аккорда (cm7, c, (3, 6, 10, 1))
+// создание аккорда (cm7, c, (0, 3, 7, 10))
 chord::chord(std::string name, int root, std::vector<int> rule):
     chordName(std::move(name)), rootNote(root), chordRule(std::move(rule)) {}
 
