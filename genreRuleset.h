@@ -5,13 +5,23 @@
 #include <string>
 #include <vector>
 
+struct Transition {
+    std::string nextChord;
+    double probability;
+};
+
 class genreRuleset {
-protected:
     std::string genreName;
     std::map <std::string, std::vector<int>> chordLibrary;
-    std::map <std::string, std::vector<std::string>> transitionArray;
+    std::map<std::string, std::vector<Transition>> transitions;
+
+    void parseChordLine(const std::string& line);
+    void parseTransitionLine(const std::string& line);
 public:
+    std::map<std::string, std::pair<int, std::string>> degreeDefinitions;
+
     genreRuleset() {
+        chordLibrary["5"] = {0, 7, 12};
         chordLibrary["min"] = {0, 3, 7};
         chordLibrary["maj"] = {0, 4, 7};
         chordLibrary["dim"] = {0, 3, 6};
@@ -24,8 +34,8 @@ public:
     }
 
     bool loadFromFile(const std::string &fileName);
-    std::vector<int> getType(std::string type);
-    std::string getNextChord(std::string current);
+    std::vector<int> getType(const std::string &type);
+    std::string getNextChord(const std::string &current);
 };
 
 #endif //COURSE_PROJECT_GENRERULESET_H

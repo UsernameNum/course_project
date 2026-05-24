@@ -4,7 +4,7 @@
 #include <vector>
 
 /*  0  1  2  3  4  5  6  7  8  9  10 11
- *  a  a# b  c  c# d  d# e  f  f# g  g#
+ *  c  c# d  d# e  f  f# g  g# a  a# b
  */
 
 class chord {
@@ -14,9 +14,7 @@ protected:
     std::vector<int> chordRule; // полутоны от 0 - тоники
 public:
     chord(std::string name, int root, std::vector<int> rule);
-
     std::string getName() { return chordName; }
-
     std::vector<int> getAbsoluteNotes() const;
 };
 

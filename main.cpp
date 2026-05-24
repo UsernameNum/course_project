@@ -31,5 +31,5 @@ int main() {
 
     genreRuleset jazz;
     jazz.loadFromFile("jazz_major.txt");
-    return 0;
+
 }
