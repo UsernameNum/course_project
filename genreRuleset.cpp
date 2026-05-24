@@ -84,7 +84,7 @@ bool genreRuleset::loadFromFile(const std::string &fileName) {
 }
 
 std::vector<int> genreRuleset::getType(const std::string &type) {
-    if (chordLibrary.find(type) == chordLibrary.end()) { return chordLibrary[type]; }
+    if (chordLibrary.find(type) != chordLibrary.end()) { return chordLibrary[type]; }
     return {};
 }
 

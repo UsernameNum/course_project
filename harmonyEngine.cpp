@@ -3,7 +3,7 @@
 #include <random>
 
 // key = "Abm"
-std::vector<chord> generate(const std::string &key, const genreRuleset& rules, int length) {
+std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRuleset& rules, int length) {
     std::vector<chord> harmony;
     std::vector<std::string> allNotes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
     std::vector<std::string> allModes = {"maj", "min"};
@@ -46,6 +46,7 @@ std::vector<chord> generate(const std::string &key, const genreRuleset& rules, i
     for (int i = 0; i < length; i++) {
     }
 
+    return harmony;
 }
 
 int voiceLeading(const std::vector<chord>& progression) {
