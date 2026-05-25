@@ -15,6 +15,7 @@ class genreRuleset {
     std::map <std::string, std::vector<int>> chordLibrary;
     std::map<std::string, std::vector<Transition>> transitions;
 
+    std::string Tonic() const;
     void parseChordLine(const std::string& line);
     void parseTransitionLine(const std::string& line);
 public:

@@ -47,7 +47,11 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
 
     std::vector<std::string> degrees; // последовательность ступеней
     degrees.reserve(length);
-    std::string firstDegree = "I"; // первая всегда тоника
+    std::string firstDegree; // первая всегда тоника
+    if (rules.degreeDefinitions.contains("I") &&
+    !rules.degreeDefinitions.contains("i")) firstDegree = "i";
+    else firstDegree = "I";
+
     std::string currentDegree = firstDegree;
 
     for (int i = 0; i < length; i++) {
@@ -65,7 +69,7 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
         auto it = rules.degreeDefinitions.find(degree);
         if (it == rules.degreeDefinitions.end()) {
             // если степень не найдена — fallback в I
-            it = rules.degreeDefinitions.find("I");
+            it = rules.degreeDefinitions.find(firstDegree);
             if (it == rules.degreeDefinitions.end()) {
                 // ruleset не загружен или неверный
                 return {};

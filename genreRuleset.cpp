@@ -6,6 +6,13 @@
 #include <sstream>
 #include <string>
 
+std::string genreRuleset::Tonic () const {
+    std::string tonic;
+    if (degreeDefinitions.contains("I") && degreeDefinitions.contains("i")) tonic = "I";
+    else tonic = "i";
+    return tonic;
+}
+
 std::string cut(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\r\n");
     if (first == std::string::npos) return "";
@@ -94,7 +101,7 @@ std::string genreRuleset::getNextChord(const std::string &current) const {
         // если в рулсете не нашлось следующего аккорда, приходим в тонику
     auto it = transitions.find(current);
     if (it == transitions.end() || it->second.empty())
-        { return "I"; }
+        { return Tonic(); }
         // {0.3, 0.3, 0.2, 0.2}
     const auto& options = it->second;
     std::vector<double> weights;
@@ -116,7 +123,7 @@ std::string genreRuleset::getNextChord(const std::string &current) const {
 std::string genreRuleset::getClosingChord(const std::string& from, const std::string& to) const {
     auto itFrom = transitions.find(from); // список переходов из предыдущего аккорда
     if (itFrom == transitions.end() || itFrom->second.empty()) {
-        return "I"; // если их нет, возвращаемся в тонику
+        return Tonic(); // если их нет, возвращаемся в тонику
     }
 
     std::string bestCandidate = itFrom->second.front().nextChord; // последний лучший кандидат
