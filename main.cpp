@@ -2,6 +2,7 @@
 
 #include "chord.h"
 #include "genreRuleset.h"
+#include "harmonyEngine.h"
 
 /* Моделирование процесса подбора гармонии музыкальной композиции
  * chord:
@@ -30,6 +31,15 @@ int main() {
     } std::cout << std::endl;
 
     genreRuleset jazz;
-    jazz.loadFromFile("jazz_major.txt");
-
+    jazz.loadFromFile("jazz_minor.txt");
+    harmonyEngine engine;
+    std::vector<chord> g = engine.generate("A#", jazz, 8);
+    for (auto note : g) {
+        std::cout << note.getName() << " ";
+        std::vector<int> notes2 = note.getAbsoluteNotes();
+        std::cout << std::endl;
+        for (int note2 : notes2) {
+            std::cout << note2 << " ";
+        } std::cout << std::endl;
+    }
 }

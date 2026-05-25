@@ -6,6 +6,8 @@
 
 class harmonyEngine {
     std::string currentDegree = "I"; // первый элемент всегда тоника
+    static int noteIndex(const std::string& name);
+    static int mod12(int x);
 public:
     std::vector<chord> generate(const std::string &key = "", const genreRuleset &rules = {}, int length = 4);
     int voiceLeading(const std::vector<chord>& progression);

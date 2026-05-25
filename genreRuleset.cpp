@@ -61,23 +61,23 @@ bool genreRuleset::loadFromFile(const std::string &fileName) {
         return false;
     }
 
-    while (std::getline(in, line))
-    {
-        if (line.empty()) {
+    while (std::getline(in, line)) {
+        if (line.empty()) continue;
+        // смена секции
+        if (line == "[CHORDS]" || line == "[TRANSITIONS]") {
+            currentSelection = line;
             continue;
         }
-
-        if (line == "[CHORDS]") {
-            currentSelection = line;
-        } else if (line == "[TRANSITIONS]") {
-            currentSelection = line;
-        }
-
+        // обработка строки по секции
         if (currentSelection == "[CHORDS]") {
-            parseChordLine(line);
-        } else if (currentSelection == "[TRANSITIONS]") {
-            parseTransitionLine(line);
+            if (line.find('=') != std::string::npos) parseChordLine(line);
+            continue;
         }
+        if (currentSelection == "[TRANSITIONS]") {
+            if (line.find("->") != std::string::npos) parseTransitionLine(line);
+            continue;
+        }
+        // иначе: строка до секций (например "[MAJOR JAZZ]") — игнорируем
     }
     in.close();
     return true;
@@ -89,6 +89,7 @@ std::vector<int> genreRuleset::getType(const std::string &type) const {
     return it->second;
 }
 
+// реализация рулсета цепями Маркова
 std::string genreRuleset::getNextChord(const std::string &current) const {
         // если в рулсете не нашлось следующего аккорда, приходим в тонику
     auto it = transitions.find(current);
@@ -111,35 +112,40 @@ std::string genreRuleset::getNextChord(const std::string &current) const {
     return options[selectedIndex].nextChord;
 }
 
+        // предыдущий -> кандидат -> следующий
 std::string genreRuleset::getClosingChord(const std::string& from, const std::string& to) const {
-    auto itFrom = transitions.find(from);
+    auto itFrom = transitions.find(from); // список переходов из предыдущего аккорда
     if (itFrom == transitions.end() || itFrom->second.empty()) {
-        return "I";
+        return "I"; // если их нет, возвращаемся в тонику
     }
 
-    std::string bestCandidate = itFrom->second.front().nextChord;
-    double bestScore = -1.0;
+    std::string bestCandidate = itFrom->second.front().nextChord; // последний лучший кандидат
+    double bestScore = -1.0; // насколько хорошо работает
 
+        // перебираем все кандидаты, которые возможны из предыдущего
     for (const auto& cand : itFrom->second) {
         const std::string& candidate = cand.nextChord;
-        double pPrevToCand = cand.probability;
-
-        // p(candidate -> to)
-        double pCandTo = 0.0;
+        double pPrevToCand = cand.probability; // вероятность перехода в кандидата
+        double pCandToNext = 0.0; // вероятность перехода из кандидата
         auto itCand = transitions.find(candidate);
         if (itCand != transitions.end()) {
             for (const auto& t : itCand->second) {
-                if (t.nextChord == to) {
-                    pCandTo = t.probability;
+                if (t.nextChord == to) { // проверяем, может ли он перейти по умолчанию
+                    pCandToNext = t.probability;
                     break;
                 }
             }
         }
-        double score = pPrevToCand * pCandTo;
+            // общая оценка = (переход в) * (переход из)
+        double score = pPrevToCand * pCandToNext;
         if (score > bestScore) {
             bestScore = score;
             bestCandidate = candidate;
         }
+    }
+    if (bestScore <= 0.0) {
+        // как правило, если из предпоследнего аккорда нет переходов, он сам является хорошим вариантом
+        return from;
     }
     return bestCandidate;
 }

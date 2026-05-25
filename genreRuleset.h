@@ -36,8 +36,7 @@ public:
     bool loadFromFile(const std::string &fileName);
 
     std::vector<int> getType(const std::string &type) const;
-
-    std::vector<int> getType(const std::string &type);
+    std::string getGenreName(genreRuleset ruleset) const;
 
     std::string getNextChord(const std::string &current) const;
     std::string getClosingChord(const std::string &from, const std::string &to) const;
