@@ -22,7 +22,7 @@ public:
     std::map<std::string, std::pair<int, std::string>> degreeDefinitions;
 
     genreRuleset() {
-        chordLibrary["5"] = {0, 7, 12};
+        chordLibrary["5"] = {0, 7};
         chordLibrary["min"] = {0, 3, 7};
         chordLibrary["maj"] = {0, 4, 7};
         chordLibrary["dim"] = {0, 3, 6};

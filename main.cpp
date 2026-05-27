@@ -33,7 +33,7 @@ int main() {
     genreRuleset jazz;
     jazz.loadFromFile("jazz_minor.txt");
     harmonyEngine engine;
-    std::vector<chord> g = engine.generate("A#", jazz, 8);
+    std::vector<chord> g = engine.generate("A#", jazz, 4);
     for (auto note : g) {
         std::cout << note.getName() << " ";
         std::vector<int> notes2 = note.getAbsoluteNotes();
@@ -42,4 +42,5 @@ int main() {
             std::cout << note2 << " ";
         } std::cout << std::endl;
     }
+    engine.voiceLeading(g);
 }

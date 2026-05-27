@@ -11,6 +11,7 @@ protected:
 public:
     chord(std::string name, int root, std::vector<int> rule);
     std::string getName() { return chordName; }
+    std::vector<int> getRule() const { return chordRule; }
     std::vector<int> getAbsoluteNotes() const;
 };
 

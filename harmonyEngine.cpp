@@ -1,6 +1,7 @@
 #include "harmonyEngine.h"
 
 #include <algorithm>
+#include <iostream>
 #include <random>
 
 /*  0  1  2  3  4  5  6  7  8  9  10 11
@@ -11,6 +12,13 @@ static const std::vector<std::string> allNotes = {
     "C","C#","D","D#","E","F","F#","G","G#","A","A#","B"
 };
 
+// с = min(mod(a-b), 12 - mod(a-b))
+int minCost(int x, int y) {
+    int n = abs(x - y);
+    return std::min(n, 12-n) * std::min(n, 12-n); // штраф на большие скачки
+}
+
+// возвращает индекс ноты
 int harmonyEngine::noteIndex(const std::string& name) {
     for (int i = 0; i < (int)allNotes.size(); ++i) {
         if (allNotes[i] == name) return i;
@@ -22,6 +30,8 @@ int harmonyEngine::mod12(int x) {
     int r = x % 12;
     return (r < 0) ? (r + 12) : r;
 }
+
+// конвертировать ступени в полутона -> использовать degreeDefinitions<ступень, <полутона, тип>>
 
 // key = "Ab", genreRuleset = "jazz_major", int = 2-32
 std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRuleset& rules, int length) {
@@ -49,8 +59,8 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
     degrees.reserve(length);
     std::string firstDegree; // первая всегда тоника
     if (rules.degreeDefinitions.contains("I") &&
-    !rules.degreeDefinitions.contains("i")) firstDegree = "i";
-    else firstDegree = "I";
+    !rules.degreeDefinitions.contains("i")) firstDegree = "I";
+    else firstDegree = "i";
 
     std::string currentDegree = firstDegree;
 
@@ -81,13 +91,44 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
         std::vector<int> chordRule = rules.getType(chordType); // интервалы относительно корня аккорда
         int chordRootNum = mod12(tonicNum + rootOffset); // корень аккорда (0..11)
 
-        std::string chordName = degree + chordType;
+        std::string chordName = allNotes[chordRootNum] + chordType;
         progression.emplace_back(chordName, chordRootNum, chordRule);
     }
     return progression;
 }
-        // считаем общий счёт нот по принципу модуль(предыдущая - следующая)
+// chord("Am", 9, {0, 3, 7})
+// chord("D5", 2, {0, 7})
+// chord("E7", 4, {0, 4, 7, 10})
+// chord("Am", 9, {0, 3, 7})
 int voiceLeading(const std::vector<chord>& progression) {
+    // двумерные вектора: нот, минимальных переходов конкретной ноты в следующую и её индекс
+    std::vector<std::vector<int>> notes(progression.size()), dp(progression.size()), nextID(progression.size());
+    for (int i = 0; i < progression.size(); i++) { notes[i] = progression[i].getAbsoluteNotes(); } // заполнение массива нот
+    for (int i = 0; i < progression.size(); i++) { // каждый аккорд
+        for (int j = 0; j < progression[i].getRule().size(); j++) { // каждая нота этого аккорда
+            nextID[i][j] = -1; // первоначальный индекс до обработки
+            dp[i][j] = minCost(notes[i][j], notes[i+1][0]) + dp[i+1][0];
+            for (int k = 0; k < progression[i].getRule().size(); k++) { // каждая нота следующего аккорда
+                // минимальный шаг между текущим и следующим аккордом + стоимость для каждого следующего
+                int cand = minCost(notes[i][j], notes[i+1][k]) + dp[i+1][k];
+                if (cand < dp[i][j]) { // если это минимум - запоминаем
+                    dp[i][j] = cand;
+                    nextID[i][j] = k;
+                }
+            }
+        }
+    }
+    for (int i = 0; i < progression.size(); i++) {
+        for (int j = 0; j < progression[i].getRule().size(); j++) {
+            std::cout << dp[i][j] << " ";
+        }
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < progression.size(); i++) {
+        for (int j = 0; j < progression[i].getRule().size(); j++) {
+            std::cout << nextID[i][j] << " ";
+        }
+    }
 }
 
 void saveToFiles(const std::vector<chord>& progression, int bpm) {
