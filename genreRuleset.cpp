@@ -70,6 +70,11 @@ bool genreRuleset::loadFromFile(const std::string &fileName) {
 
     while (std::getline(in, line)) {
         if (line.empty()) continue;
+        if (line.front() == '[' && line.back() == ']') { // забираем название рулсета
+            if (line != "[CHORDS]" && line != "[TRANSITIONS]") {
+                genreName = line.substr(1, line.length() - 2);
+            }
+        }
         // смена секции
         if (line == "[CHORDS]" || line == "[TRANSITIONS]") {
             currentSelection = line;

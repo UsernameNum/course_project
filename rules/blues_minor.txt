@@ -1,4 +1,4 @@
-[BLUES_MINOR]
+[BLUES MINOR]
 
 [CHORDS]
 i    = 0:min7

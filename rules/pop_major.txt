@@ -1,4 +1,4 @@
-[POP_MAJOR]
+[POP MAJOR]
 
 [CHORDS]
 I    = 0:maj

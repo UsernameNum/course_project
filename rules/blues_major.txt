@@ -1,4 +1,4 @@
-[BLUES_MAJOR]
+[BLUES MAJOR]
 
 [CHORDS]
 I    = 0:7

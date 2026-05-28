@@ -1,4 +1,4 @@
-[MINOR JAZZ]
+[JAZZ MINOR]
 
 [CHORDS]
 i   = 0:min6

@@ -11,7 +11,6 @@ struct Transition {
 };
 
 class genreRuleset {
-    std::string genreName;
     std::map <std::string, std::vector<int>> chordLibrary;
     std::map<std::string, std::vector<Transition>> transitions;
 
@@ -20,6 +19,7 @@ class genreRuleset {
     void parseTransitionLine(const std::string& line);
 public:
     std::map<std::string, std::pair<int, std::string>> degreeDefinitions;
+    std::string genreName;
 
     genreRuleset() {
         chordLibrary["5"] = {0, 7};

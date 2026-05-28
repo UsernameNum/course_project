@@ -19,10 +19,12 @@
  *  void saveToFiles(vector<Chord> progression, int bpm) - сохранение результата в файлы
  */
 
-int main() {
-    chord chC("C", 3, {0,4,7});
-    chord chAm("A#m", 1, {0,3,7});
+static const std::vector<std::string> allNotes = {
+    "C","C#","D","D#","E","F","F#","G","G#","A","A#","B"
+};
 
+int main() {
+    chord chC("G#", 3, {0,4,7});
     std::cout << "chord: " << chC.getName() << std::endl;
     std::cout << "its absolute notes: " << std::endl;
     std::vector<int> notes = chC.getAbsoluteNotes();
@@ -31,19 +33,20 @@ int main() {
     } std::cout << std::endl;
 
     genreRuleset jazz;
-    jazz.loadFromFile("jazz_minor.txt");
+    jazz.loadFromFile("jazz_major.txt");
     harmonyEngine engine;
-    std::vector<chord> g = engine.generate("A#", jazz, 4);
+    std::vector<chord> g = engine.generate("G", jazz, 4);
+
+    std::cout << jazz.genreName << " in " << std::endl;
     for (auto note : g) {
-        std::cout << note.getName() << " ";
-        std::vector<int> notes2 = note.getAbsoluteNotes();
-        std::cout << std::endl;
-        for (int note2 : notes2) {
-            std::cout << note2 << " ";
-        } std::cout << std::endl;
+        std::cout << note.getName() << " {";
+        std::vector<int> nts = note.getAbsoluteNotes();
+        for (int n = 0; n < nts.size()-1; n++) {
+            std::cout << allNotes[n] << ", ";
+        } std::cout << allNotes[nts[nts.size()-1]] << "}" << std::endl;
     }
     std::vector<std::string> gLead = engine.voiceLeading(g);
-    for (const auto& note : gLead) {
-        std::cout << note << " ";
-    }
+    for (int n = 0; n < gLead.size()-1; n++) {
+        std::cout << gLead[n] << " - ";
+    } std::cout << gLead[gLead.size()-1] << std::endl;
 }

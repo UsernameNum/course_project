@@ -43,7 +43,7 @@ int harmonyEngine::mod12(int x) {
 std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRuleset& rules, int length) {
     std::string tonic; // тоника
     std::vector<chord> progression; // искомая прогрессия аккордов
-    progression.reserve(length); // выделяем память для заполнения
+    progression.reserve(length);
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -60,6 +60,7 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
     }
 
     int tonicNum = noteIndex(tonic);
+    std::cout << "tonic='" << tonic << "' tonicNum=" << tonicNum << "\n";
 
     std::vector<std::string> degrees; // последовательность ступеней
     degrees.reserve(length);
@@ -90,15 +91,24 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
                 // ruleset не загружен или неверный
                 return {};
             }
+
         }
         int rootOffset = it->second.first; // 7 для V
         const std::string& chordType = it->second.second; // "maj7"
 
+
         std::vector<int> chordRule = rules.getType(chordType); // интервалы относительно корня аккорда
         int chordRootNum = mod12(tonicNum + rootOffset); // корень аккорда (0..11)
-
         std::string chordName = allNotes[chordRootNum] + chordType;
-        progression.emplace_back(chordName, chordRootNum, chordRule);
+
+        std::cout << chordName << " root=" << chordRootNum << " rule:";
+        for (int r: chordRule) std::cout << " " << r;
+        std::cout << " abs:";
+        for (int a: chord(chordName, chordRootNum, chordRule).getAbsoluteNotes()) std::cout << " " << a;
+        std::cout << "\n";
+
+        progression.emplace_back(chordName, chordRootNum, chord(chordName, chordRootNum, chordRule).getAbsoluteNotes());
+
     }
     return progression;
 }
@@ -113,7 +123,7 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
 
     // двумерные вектора: нот, минимальных переходов конкретной ноты в следующую и её индекс
     std::vector<std::vector<int>> notes(progression.size()), dp(progression.size()), nextID(progression.size());
-    for (int i = 0; i < INF; i++) {
+    for (int i = 0; i < N; i++) {
         notes[i] = progression[i].getAbsoluteNotes(); // заполнение массива нот
         dp[i].assign(notes[i].size(), INF); // начальные переходы всега меньше
         nextID[i].assign(notes[i].size(), -1); // начальный индекс
@@ -154,6 +164,6 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
     return leadNames;
 }
 
-void saveToFiles(const std::vector<chord>& progression, int bpm) {
+void harmonyEngine::saveToTxt(const std::vector<chord>& progression, int bpm) {
 
 }

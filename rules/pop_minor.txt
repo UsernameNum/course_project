@@ -1,4 +1,4 @@
-[POP_MINOR]
+[POP MINOR]
 
 [CHORDS]
 i    = 0:min

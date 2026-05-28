@@ -1,4 +1,4 @@
-[MAJOR JAZZ]
+[JAZZ MAJOR]
 
 [CHORDS]
 I   = 0:maj7
