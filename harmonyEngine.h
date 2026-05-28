@@ -10,7 +10,8 @@ class harmonyEngine {
     static int mod12(int x);
 public:
     std::vector<chord> generate(const std::string &key = "", const genreRuleset &rules = {}, int length = 4);
-    int voiceLeading(const std::vector<chord>& progression);
+
+    std::vector<std::string> voiceLeading(const std::vector<chord> &progression);
     void saveToFiles(const std::vector<chord>& progression, int bpm);
 };
 

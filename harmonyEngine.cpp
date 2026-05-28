@@ -106,10 +106,10 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
 // chord("D5", 2, {0, 7})
 // chord("E7", 4, {0, 4, 7, 10})
 // chord("Am", 9, {0, 3, 7})
-int harmonyEngine::voiceLeading(const std::vector<chord>& progression) {
+std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &progression) {
     int N = (int)progression.size();
     int INF = 1e9;
-    if (N == 0) return 0;
+    if (N == 0) return {};
 
     // двумерные вектора: нот, минимальных переходов конкретной ноты в следующую и её индекс
     std::vector<std::vector<int>> notes(progression.size()), dp(progression.size()), nextID(progression.size());
@@ -151,6 +151,7 @@ int harmonyEngine::voiceLeading(const std::vector<chord>& progression) {
     leadNames.reserve(N);
     for (int pc : leadNum) leadNames.push_back(allNotes[pc]);
 
+    return leadNames;
 }
 
 void saveToFiles(const std::vector<chord>& progression, int bpm) {

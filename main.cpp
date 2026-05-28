@@ -42,5 +42,8 @@ int main() {
             std::cout << note2 << " ";
         } std::cout << std::endl;
     }
-    engine.voiceLeading(g);
+    std::vector<std::string> gLead = engine.voiceLeading(g);
+    for (const auto& note : gLead) {
+        std::cout << note << " ";
+    }
 }
