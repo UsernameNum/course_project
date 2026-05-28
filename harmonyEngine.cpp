@@ -14,9 +14,15 @@ static const std::vector<std::string> allNotes = {
 
 // с = min(mod(a-b), 12 - mod(a-b))
 int minCost(int x, int y) {
-    int n = abs(x - y);
-    return std::min(n, 12-n) * std::min(n, 12-n); // штраф на большие скачки
+    int n = std::abs(x - y);
+    int d = std::min(n, 12-n);
+    return d*d; // штраф на большие скачки
 }
+
+struct LeadResult {
+    std::vector<int> lead; // лид мелодия
+    int cost = 0; // шаги
+};
 
 // возвращает индекс ноты
 int harmonyEngine::noteIndex(const std::string& name) {
@@ -100,15 +106,23 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
 // chord("D5", 2, {0, 7})
 // chord("E7", 4, {0, 4, 7, 10})
 // chord("Am", 9, {0, 3, 7})
-int voiceLeading(const std::vector<chord>& progression) {
+int harmonyEngine::voiceLeading(const std::vector<chord>& progression) {
+    int N = (int)progression.size();
+    int INF = 1e9;
+    if (N == 0) return 0;
+
     // двумерные вектора: нот, минимальных переходов конкретной ноты в следующую и её индекс
     std::vector<std::vector<int>> notes(progression.size()), dp(progression.size()), nextID(progression.size());
-    for (int i = 0; i < progression.size(); i++) { notes[i] = progression[i].getAbsoluteNotes(); } // заполнение массива нот
-    for (int i = 0; i < progression.size(); i++) { // каждый аккорд
-        for (int j = 0; j < progression[i].getRule().size(); j++) { // каждая нота этого аккорда
-            nextID[i][j] = -1; // первоначальный индекс до обработки
-            dp[i][j] = minCost(notes[i][j], notes[i+1][0]) + dp[i+1][0];
-            for (int k = 0; k < progression[i].getRule().size(); k++) { // каждая нота следующего аккорда
+    for (int i = 0; i < INF; i++) {
+        notes[i] = progression[i].getAbsoluteNotes(); // заполнение массива нот
+        dp[i].assign(notes[i].size(), INF); // начальные переходы всега меньше
+        nextID[i].assign(notes[i].size(), -1); // начальный индекс
+    }
+    for (int j = 0; j < (int)notes[N-1].size(); ++j) dp[N-1][j] = 0; // последний аккорд
+
+    for (int i = N-2; i >= 0; --i) { // каждый аккорд
+        for (int j = 0; j < notes[i].size(); ++j) { // каждая нота этого аккорда
+            for (int k = 0; k < notes[i+1].size(); ++k) { // каждая нота следующего аккорда
                 // минимальный шаг между текущим и следующим аккордом + стоимость для каждого следующего
                 int cand = minCost(notes[i][j], notes[i+1][k]) + dp[i+1][k];
                 if (cand < dp[i][j]) { // если это минимум - запоминаем
@@ -118,17 +132,25 @@ int voiceLeading(const std::vector<chord>& progression) {
             }
         }
     }
-    for (int i = 0; i < progression.size(); i++) {
-        for (int j = 0; j < progression[i].getRule().size(); j++) {
-            std::cout << dp[i][j] << " ";
-        }
+
+    // выбираем лучший старт на 0-м аккорде
+    int jStart = 0;
+    for (int j = 1; j < (int)dp[0].size(); ++j)
+        if (dp[0][j] < dp[0][jStart]) jStart = j;
+
+    // восстановление lead
+    std::vector<int> leadNum(N);
+    int j = jStart;
+    for (int i = 0; i < N; ++i) {
+        leadNum[i] = notes[i][j];
+        if (i == N - 1) break;
+        j = nextID[i][j];
+        if (j < 0) break; // на случай пустых данных
     }
-    std::cout << std::endl;
-    for (int i = 0; i < progression.size(); i++) {
-        for (int j = 0; j < progression[i].getRule().size(); j++) {
-            std::cout << nextID[i][j] << " ";
-        }
-    }
+    std::vector<std::string> leadNames;
+    leadNames.reserve(N);
+    for (int pc : leadNum) leadNames.push_back(allNotes[pc]);
+
 }
 
 void saveToFiles(const std::vector<chord>& progression, int bpm) {
