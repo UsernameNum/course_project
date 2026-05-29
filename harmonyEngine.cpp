@@ -102,6 +102,9 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
         std::cout << " abs:";
         for (int a: chord(chordName, chordRootNum, chordRule).getAbsoluteNotes()) std::cout << " " << a;
         std::cout << "\n";
+        if (chordRule.empty()) {
+            std::cerr << "Unknown chord type: '" << chordType << "'\n";
+        }
 
         progression.emplace_back(chordName, chordRootNum, chordRule);
 
@@ -125,7 +128,12 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
         nextID[i].assign(notes[i].size(), -1); // начальный индекс
     }
     for (int j = 0; j < (int)notes[N-1].size(); ++j) dp[N-1][j] = 0; // последний аккорд
-
+    for (int i = 0; i < N; ++i) {
+        if (progression[i].getRule().empty()) {
+            std::cerr << "Empty rule at chord " << i << " " << progression[i].getName() << "\n";
+            return {};
+        }
+    }
     for (int i = N-2; i >= 0; --i) { // каждый аккорд
         for (int j = 0; j < notes[i].size(); ++j) { // каждая нота этого аккорда
             for (int k = 0; k < notes[i+1].size(); ++k) { // каждая нота следующего аккорда
@@ -148,15 +156,15 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
     std::vector<int> leadNum(N);
     int j = jStart;
     for (int i = 0; i < N; ++i) {
-        leadNum[i] = notes[i][j];
+        if (j < 0 || j >= (int)notes[i].size()) break; // защита
+        leadNum.push_back(notes[i][j]);
+
         if (i == N - 1) break;
         j = nextID[i][j];
-        if (j < 0) break; // на случай пустых данных
     }
     std::vector<std::string> leadNames;
-    leadNames.reserve(N);
+    leadNames.reserve(leadNum.size());
     for (int pc : leadNum) leadNames.push_back(allNotes[pc]);
-
     return leadNames;
 }
 
