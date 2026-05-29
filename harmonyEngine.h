@@ -12,7 +12,7 @@ public:
     std::vector<chord> generate(const std::string &key = "", const genreRuleset &rules = {}, int length = 4);
 
     std::vector<std::string> voiceLeading(const std::vector<chord> &progression);
-    void saveToTxt(const std::vector<chord>& progression, int bpm);
+    bool saveToTxt(const std::vector<chord>& progression, const genreRuleset& g);
 };
 
 #endif //COURSE_PROJECT_HARMONYENGINE_H

@@ -10,7 +10,7 @@ protected:
     std::vector<int> chordRule; // полутоны от 0 - тоники
 public:
     chord(std::string name, int root, std::vector<int> rule);
-    std::string getName() { return chordName; }
+    std::string getName() const { return chordName; }
     std::vector<int> getRule() const { return chordRule; }
     std::vector<int> getAbsoluteNotes() const;
 };

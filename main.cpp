@@ -37,16 +37,19 @@ int main() {
     harmonyEngine engine;
     std::vector<chord> g = engine.generate("G", jazz, 4);
 
-    std::cout << jazz.genreName << " in " << std::endl;
+    std::cout << jazz.getGenreName() << std::endl;
     for (auto note : g) {
-        std::cout << note.getName() << " {";
-        std::vector<int> nts = note.getAbsoluteNotes();
-        for (int n = 0; n < nts.size()-1; n++) {
-            std::cout << allNotes[n] << ", ";
-        } std::cout << allNotes[nts[nts.size()-1]] << "}" << std::endl;
+        auto abs = note.getAbsoluteNotes();
+        std::cout << note.getName() << " abs nums: ";
+        for (int pc : abs) std::cout << pc << " ";
+        std::cout << " | abs names: ";
+        for (int pc : abs) std::cout << allNotes[pc] << " ";
+        std::cout << "\n";
     }
     std::vector<std::string> gLead = engine.voiceLeading(g);
-    for (int n = 0; n < gLead.size()-1; n++) {
-        std::cout << gLead[n] << " - ";
-    } std::cout << gLead[gLead.size()-1] << std::endl;
+    if (!gLead.empty()) {
+        for (size_t i = 0; i + 1 < gLead.size(); ++i)
+            std::cout << gLead[i] << " - ";
+        std::cout << gLead.back() << "\n";
+    }
 }

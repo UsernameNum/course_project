@@ -101,6 +101,10 @@ std::vector<int> genreRuleset::getType(const std::string &type) const {
     return it->second;
 }
 
+std::string genreRuleset::getGenreName() const {
+    std::cout << genreName;
+}
+
 // реализация рулсета цепями Маркова
 std::string genreRuleset::getNextChord(const std::string &current) const {
         // если в рулсете не нашлось следующего аккорда, приходим в тонику

@@ -1,5 +1,6 @@
 #include "harmonyEngine.h"
 
+#include <fstream>
 #include <algorithm>
 #include <iostream>
 #include <random>
@@ -18,11 +19,6 @@ int minCost(int x, int y) {
     int d = std::min(n, 12-n);
     return d*d; // штраф на большие скачки
 }
-
-struct LeadResult {
-    std::vector<int> lead; // лид мелодия
-    int cost = 0; // шаги
-};
 
 // возвращает индекс ноты
 int harmonyEngine::noteIndex(const std::string& name) {
@@ -107,7 +103,7 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
         for (int a: chord(chordName, chordRootNum, chordRule).getAbsoluteNotes()) std::cout << " " << a;
         std::cout << "\n";
 
-        progression.emplace_back(chordName, chordRootNum, chord(chordName, chordRootNum, chordRule).getAbsoluteNotes());
+        progression.emplace_back(chordName, chordRootNum, chordRule);
 
     }
     return progression;
@@ -164,6 +160,47 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
     return leadNames;
 }
 
-void harmonyEngine::saveToTxt(const std::vector<chord>& progression, int bpm) {
+bool harmonyEngine::saveToTxt(const std::vector<chord>& progression, const genreRuleset& g) {
+    std::ofstream out ("output.txt");
+    if (!out.is_open()) {
+        std::cout << "unable to open file" << std::endl;
+        return false;
+    }
 
+    std::string genreName = g.getGenreName();
+    const auto& prog = progression;
+    std::vector<std::string> lead = voiceLeading(progression);
+    std::vector<int> lint;
+    for (const auto & i : lead) lint.push_back(noteIndex(i));
+    int cost = 0;
+    for (size_t i = 0; i + 1 < lint.size(); ++i) {
+        int d = std::abs(lint[i] - lint[i+1]);
+        d = std::min(d, 12 - d);
+        cost += d*d;
+    }
+
+    out << "=== HARMONY GENERATOR ===\n\n";
+
+    out << "This is but a tool to help You with creative tasks and not a \"do a song\" type AI.\n";
+    out << "You can create chord sequence via setting one of many different and infinitely expanding rulesets, key and length.\n";
+    out << "Logic of generating is based around loops witch allows you to jam easily or use it in your verses!\n\n";
+
+    out << "    Chosen genre: " << genreName << "\n";
+    out << "    Key: " << prog[0].getName() << "\n";
+    out << "    Length: " << lead.size() << " chords \n\n";
+
+    out << "Generated progression:\n";
+    for (int i = 0; i < (int)prog.size(); ++i) { // 1. Gmaj7: {G, B, D, F#}
+        auto abs = prog[i].getAbsoluteNotes();
+        out << i << ". " << prog[i].getName()  << ": {";
+        for (int j = 0; j < (int)abs.size()-1; ++j) out << allNotes[abs[j]] << ", ";
+        out << allNotes[abs.size()-1] << "}\n";
+    } out << "\n";
+
+    out << "Best found lead in this progression:\n";
+    for (int i = 0; i < lead.size()-1; ++i) {
+        out << lead[i] << " - ";
+    } out << lead[lead.size()-1] << "\n";
+
+    return true;
 }
