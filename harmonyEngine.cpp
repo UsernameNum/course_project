@@ -16,32 +16,32 @@ int minCost(int x, int y) {
     return d*d; // штраф на большие скачки
 }
 
+// возвращает имя ноты по индексу
 static const std::string& noteName(int pc) {
     static const std::vector<std::string> names = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
     return names[pc];
 }
 
-// возвращает индекс ноты
+// возвращает индекс ноты по имени
 int harmonyEngine::noteIndex(const std::string& name) {
     for (int i = 0; i < 12; ++i) {
         if (noteName(i) == name) return i;
     }
-    return 0; // C
+    return 0; // C, если написали какую-то фигню
 }
 
+// %12 для негативных чисел
 int harmonyEngine::mod12(int x) {
     int r = x % 12;
     return (r < 0) ? (r + 12) : r;
 }
 
-// конвертировать ступени в полутона -> использовать degreeDefinitions<ступень, <полутона, тип>>
-
-// key = "Ab", genreRuleset = "jazz_major", int = 2-32
+// непосредственно генерация последовательности
 std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRuleset& rules, int length) {
     std::string tonic; // тоника
     std::vector<chord> progression; // искомая прогрессия аккордов
     progression.reserve(length);
-
+    // "честный" рандом
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> noteDist(0, 11);
@@ -55,7 +55,7 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
     if (tonic.empty()) {
         tonic = noteName(noteDist(gen));
     }
-
+    // переводим тонику в число
     int tonicNum = noteIndex(tonic);
     // std::cout << "tonic='" << tonic << "' tonicNum=" << tonicNum << "\n";
 
@@ -65,14 +65,13 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
     if (rules.degreeDefinitions.contains("I") &&
     !rules.degreeDefinitions.contains("i")) firstDegree = "I";
     else firstDegree = "i";
-
+    // текущий аккорд
     std::string currentDegree = firstDegree;
-
     for (int i = 0; i < length; i++) {
-        degrees.push_back(currentDegree);
+        degrees.push_back(currentDegree); // заполнение массива аккорда
         if (i == length-1) break;
-        // на последнем аккорде при длине больше 4 аккорд разрешается в тонику
-        if (i == length - 2 && length > 4) {
+        // на последнем аккорде при длине больше 3 аккорд разрешается в тонику
+        if (i == length - 2 && length > 3) {
             currentDegree = rules.getClosingChord(currentDegree, firstDegree);
         } else { // иначе строится по правилам построения рулсетов
             currentDegree = rules.getNextChord(currentDegree);
@@ -110,7 +109,6 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
         // std::cout << "\n";
 
         progression.emplace_back(chordName, chordRootNum, chordRule);
-
     }
     return progression;
 }
@@ -171,24 +169,24 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
     return leadNames;
 }
 
+// стилизуем и сохраняем всё, что нагенерили в текстовый файл
 bool harmonyEngine::saveToTxt(const std::vector<chord>& progression, const genreRuleset& g) {
     std::ofstream out ("output.txt");
     if (!out) return false;
-    if (progression.empty()) {
+    if (progression.empty()) { // проверка на открытие файла
         out << "Empty progression\n";
         return false;
     }
-
     std::string genreName = g.getGenreName();
     const auto& prog = progression;
     std::vector<std::string> lead = voiceLeading(progression);
-    std::vector<int> lint;
+    std::vector<int> lint; // необходим для подсчёта score
     for (const auto & i : lead) lint.push_back(noteIndex(i));
-    int cost = 0;
+    int score = 0; // подсчёт общей "оценки"
     for (size_t i = 0; i + 1 < lint.size(); ++i) {
         int d = std::abs(lint[i] - lint[i+1]);
         d = std::min(d, 12 - d);
-        cost += d*d;
+        score += d*d; // квадрат, чтобы наказывать за большие скачки
     }
 
     out << "=== HARMONY GENERATOR ===\n\n";
@@ -216,6 +214,6 @@ bool harmonyEngine::saveToTxt(const std::vector<chord>& progression, const genre
         for (size_t i = 0; i + 1 < lead.size(); ++i) out << lead[i] << " - ";
         out << lead.back() << "\n";
     }
-    out << "Lead score (how many semitone steps in this lead squared): " << cost << "\n";
+    out << "Lead score (how many semitone steps in this lead squared): " << score << "\n";
     return true;
 }

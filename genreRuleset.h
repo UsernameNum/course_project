@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+// оптимизация большой карты переходов
 struct Transition {
     std::string nextChord;
     double probability;
@@ -19,9 +20,9 @@ class genreRuleset {
     void parseChordLine(const std::string& line);
     void parseTransitionLine(const std::string& line);
 public:
-    std::map<std::string, std::pair<int, std::string>> degreeDefinitions;
+    std::map<std::string, std::pair<int, std::string>> degreeDefinitions; // мы будем обращаться к нему непосредственно в движке
 
-    genreRuleset() {
+    genreRuleset() { // библиотека подгружается при создании
         chordLibrary["5"] = {0, 7};
         chordLibrary["min"] = {0, 3, 7};
         chordLibrary["maj"] = {0, 4, 7};

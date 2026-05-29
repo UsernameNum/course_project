@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 
+// поиск тоники в публичном degreeDefinitions
 std::string genreRuleset::Tonic () const {
     std::string tonic;
     if (degreeDefinitions.contains("I") && degreeDefinitions.contains("i")) tonic = "I";
@@ -13,6 +14,7 @@ std::string genreRuleset::Tonic () const {
     return tonic;
 }
 
+// обрезание лишних частей
 std::string cut(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\r\n");
     if (first == std::string::npos) return "";
@@ -20,7 +22,7 @@ std::string cut(const std::string& str) {
     return str.substr(first, (last - first + 1));
 }
 
-        // "I    = 0:5"
+// "I    = 0:5"
 void genreRuleset::parseChordLine(const std::string& line) {
     size_t eqPos = line.find('=');
         // "I"
@@ -36,7 +38,7 @@ void genreRuleset::parseChordLine(const std::string& line) {
     degreeDefinitions[leftPart] = {rootOffset, chordType};
 }
 
-        // "I    -> bIII:0.30, IV:0.30, bVII:0.20, I:0.20"
+// "I    -> bIII:0.30, IV:0.30, bVII:0.20, I:0.20"
 void genreRuleset::parseTransitionLine(const std::string& line) {
     size_t arrPos = line.find("->");
         // "I"
@@ -57,6 +59,7 @@ void genreRuleset::parseTransitionLine(const std::string& line) {
     }
 }
 
+// выполняем парсинг в поля
 bool genreRuleset::loadFromFile(const std::string &fileName) {
     std::string currentSelection;
     std::string fullFileName = "rules/" + fileName;
@@ -95,6 +98,7 @@ bool genreRuleset::loadFromFile(const std::string &fileName) {
     return true;
 }
 
+// геттер правила аккорда по его названию
 std::vector<int> genreRuleset::getType(const std::string &type) const {
     auto it = chordLibrary.find(type);
     if (it == chordLibrary.end()) return {};
@@ -124,7 +128,7 @@ std::string genreRuleset::getNextChord(const std::string &current) const {
     return options[selectedIndex].nextChord;
 }
 
-        // предыдущий -> кандидат -> следующий
+// усиление последнего аккорда: предыдущий -> кандидат -> следующий
 std::string genreRuleset::getClosingChord(const std::string& from, const std::string& to) const {
     auto itFrom = transitions.find(from); // список переходов из предыдущего аккорда
     if (itFrom == transitions.end() || itFrom->second.empty()) {

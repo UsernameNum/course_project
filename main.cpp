@@ -91,7 +91,7 @@ int main() {
 
         // Если прогрессии ещё нет — генерим
         if (!haveProgression) {
-            progression = harmony.generate(tonic, genre, length);
+            progression = harmonyEngine::generate(tonic, genre, length);
             if (progression.empty()) {
                 std::cout << "Failed to generate progression (empty result). Try different ruleset/length.\n\n";
                 haveParams = false;
@@ -116,7 +116,7 @@ int main() {
                 std::cout << genre.getGenreName() << "\n";
                 printProgressionToConsole(progression);
 
-                auto lead = harmony.voiceLeading(progression);
+                auto lead = harmonyEngine::voiceLeading(progression);
                 if (!lead.empty()) {
                     std::cout << "Lead: ";
                     for (size_t i = 0; i < lead.size(); ++i) {
@@ -128,7 +128,7 @@ int main() {
                 break;
             }
             case 2: {
-                if (harmony.saveToTxt(progression, genre)) std::cout << "Saved to output.txt\n";
+                if (harmonyEngine::saveToTxt(progression, genre)) std::cout << "Saved to output.txt\n";
                 else std::cout << "Failed to save output.txt\n";
                 break;
             }
