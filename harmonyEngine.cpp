@@ -87,7 +87,6 @@ std::vector<chord> harmonyEngine::generate(const std::string &key, const genreRu
                 // ruleset не загружен или неверный
                 return {};
             }
-
         }
         int rootOffset = it->second.first; // 7 для V
         const std::string& chordType = it->second.second; // "maj7"
@@ -157,7 +156,7 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
     int j = jStart;
     for (int i = 0; i < N; ++i) {
         if (j < 0 || j >= (int)notes[i].size()) break; // защита
-        leadNum.push_back(notes[i][j]);
+        leadNum[i] = (notes[i][j]);
 
         if (i == N - 1) break;
         j = nextID[i][j];
@@ -201,7 +200,7 @@ bool harmonyEngine::saveToTxt(const std::vector<chord>& progression, const genre
     out << "Generated progression:\n";
     for (int i = 0; i < (int)prog.size(); ++i) { // 1. Gmaj7: {G, B, D, F#}
         auto abs = prog[i].getAbsoluteNotes();
-        out << i << ". " << prog[i].getName()  << ": {";
+        out << i+1 << ". " << prog[i].getName()  << ": {";
         if (abs.empty()) {
             out << "}\n";            // или "{(empty)}\n"
             continue;
