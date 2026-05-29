@@ -36,7 +36,9 @@ int main() {
     jazz.loadFromFile("jazz_major.txt");
     harmonyEngine engine;
     std::vector<chord> g = engine.generate("G", jazz, 4);
+    engine.saveToTxt(g, jazz);
 
+    /*
     std::cout << jazz.getGenreName() << std::endl;
     for (auto note : g) {
         auto abs = note.getAbsoluteNotes();
@@ -52,4 +54,5 @@ int main() {
             std::cout << gLead[i] << " - ";
         std::cout << gLead.back() << "\n";
     }
+    */
 }

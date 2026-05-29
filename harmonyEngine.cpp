@@ -162,8 +162,9 @@ std::vector<std::string> harmonyEngine::voiceLeading(const std::vector<chord> &p
 
 bool harmonyEngine::saveToTxt(const std::vector<chord>& progression, const genreRuleset& g) {
     std::ofstream out ("output.txt");
-    if (!out.is_open()) {
-        std::cout << "unable to open file" << std::endl;
+    if (!out) return false;
+    if (progression.empty()) {
+        out << "Empty progression\n";
         return false;
     }
 
@@ -187,20 +188,27 @@ bool harmonyEngine::saveToTxt(const std::vector<chord>& progression, const genre
 
     out << "    Chosen genre: " << genreName << "\n";
     out << "    Key: " << prog[0].getName() << "\n";
-    out << "    Length: " << lead.size() << " chords \n\n";
+    out << "    Length: " << prog.size() << " chords \n\n";
 
     out << "Generated progression:\n";
     for (int i = 0; i < (int)prog.size(); ++i) { // 1. Gmaj7: {G, B, D, F#}
         auto abs = prog[i].getAbsoluteNotes();
         out << i << ". " << prog[i].getName()  << ": {";
+        if (abs.empty()) {
+            out << "}\n";            // или "{(empty)}\n"
+            continue;
+        }
         for (int j = 0; j < (int)abs.size()-1; ++j) out << allNotes[abs[j]] << ", ";
         out << allNotes[abs.size()-1] << "}\n";
     } out << "\n";
 
     out << "Best found lead in this progression:\n";
-    for (int i = 0; i < lead.size()-1; ++i) {
-        out << lead[i] << " - ";
-    } out << lead[lead.size()-1] << "\n";
+    if (lead.empty()) {
+        out << "(empty lead)\n";
+    } else {
+        for (size_t i = 0; i + 1 < lead.size(); ++i) out << lead[i] << " - ";
+        out << lead.back() << "\n";
+    }
 
     return true;
 }
