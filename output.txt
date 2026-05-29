@@ -1,0 +1,18 @@
+=== HARMONY GENERATOR ===
+
+This is but a tool to help You with creative tasks and not a "do a song" type AI.
+You can create chord sequence via setting one of many different and infinitely expanding rulesets, key and length.
+Logic of generating is based around loops witch allows you to jam easily or use it in your verses!
+
+    Chosen genre: JAZZ MAJOR
+    Key: Gmaj7
+    Length: 4 chords 
+
+Generated progression:
+1. Gmaj7: {G, B, D, D#}
+2. Cmaj7: {C, E, G, D#}
+3. D7: {D, F#, A, D#}
+4. Gmaj7: {G, B, D, D#}
+
+Best found lead in this progression:
+G - G - F# - F#
