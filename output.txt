@@ -5,14 +5,75 @@ You can create chord sequence via setting one of many different and infinitely e
 Logic of generating is based around loops witch allows you to jam easily or use it in your verses!
 
     Chosen genre: JAZZ MAJOR
-    Key: Gmaj7
-    Length: 4 chords 
+    Key: C#maj7
+    Length: 64 chords 
 
 Generated progression:
-1. Gmaj7: {G, B, D, D#}
-2. Cmaj7: {C, E, G, D#}
-3. D7: {D, F#, A, D#}
-4. Gmaj7: {G, B, D, D#}
+1. C#maj7: {C#, F, G#, C}
+2. D#min7: {D#, F#, A#, C#}
+3. G#7: {G#, C, D#, F#}
+4. A#min7: {A#, C#, F, G#}
+5. C#maj7: {C#, F, G#, C}
+6. A#min7: {A#, C#, F, G#}
+7. D#min7: {D#, F#, A#, C#}
+8. G#7: {G#, C, D#, F#}
+9. C#maj7: {C#, F, G#, C}
+10. D#min7: {D#, F#, A#, C#}
+11. Cm7b5: {C, D#, F#, A#}
+12. C#maj7: {C#, F, G#, C}
+13. G#7: {G#, C, D#, F#}
+14. C#maj7: {C#, F, G#, C}
+15. D#min7: {D#, F#, A#, C#}
+16. G#7: {G#, C, D#, F#}
+17. C#maj7: {C#, F, G#, C}
+18. D#min7: {D#, F#, A#, C#}
+19. G#7: {G#, C, D#, F#}
+20. C#maj7: {C#, F, G#, C}
+21. G#7: {G#, C, D#, F#}
+22. A#min7: {A#, C#, F, G#}
+23. D#min7: {D#, F#, A#, C#}
+24. Cm7b5: {C, D#, F#, A#}
+25. G#7: {G#, C, D#, F#}
+26. C#maj7: {C#, F, G#, C}
+27. F#maj7: {F#, A#, C#, F}
+28. D#min7: {D#, F#, A#, C#}
+29. Fmin7: {F, G#, C, D#}
+30. A#min7: {A#, C#, F, G#}
+31. D#min7: {D#, F#, A#, C#}
+32. G#7: {G#, C, D#, F#}
+33. A#min7: {A#, C#, F, G#}
+34. F#maj7: {F#, A#, C#, F}
+35. G#7: {G#, C, D#, F#}
+36. C#maj7: {C#, F, G#, C}
+37. D#min7: {D#, F#, A#, C#}
+38. G#7: {G#, C, D#, F#}
+39. Fmin7: {F, G#, C, D#}
+40. A#min7: {A#, C#, F, G#}
+41. F#maj7: {F#, A#, C#, F}
+42. D#min7: {D#, F#, A#, C#}
+43. Fmin7: {F, G#, C, D#}
+44. A#min7: {A#, C#, F, G#}
+45. F#maj7: {F#, A#, C#, F}
+46. Cm7b5: {C, D#, F#, A#}
+47. C#maj7: {C#, F, G#, C}
+48. D#min7: {D#, F#, A#, C#}
+49. G#7: {G#, C, D#, F#}
+50. C#maj7: {C#, F, G#, C}
+51. D#min7: {D#, F#, A#, C#}
+52. G#7: {G#, C, D#, F#}
+53. A#min7: {A#, C#, F, G#}
+54. C#maj7: {C#, F, G#, C}
+55. A#min7: {A#, C#, F, G#}
+56. Fmin7: {F, G#, C, D#}
+57. A#min7: {A#, C#, F, G#}
+58. D#min7: {D#, F#, A#, C#}
+59. G#7: {G#, C, D#, F#}
+60. C#maj7: {C#, F, G#, C}
+61. Fmin7: {F, G#, C, D#}
+62. A#min7: {A#, C#, F, G#}
+63. D#min7: {D#, F#, A#, C#}
+64. G#7: {G#, C, D#, F#}
 
 Best found lead in this progression:
-G - G - F# - F#
+C# - C# - C - C# - C# - C# - C# - C - C# - C# - C - C - C - C# - C# - C - C# - C# - C - C - C - C# - C# - C - C - C# - C# - C# - C - C# - C# - C - C# - C# - C - C# - C# - C - C - C# - C# - C# - C - C# - C# - C - C# - C# - C - C# - C# - C - C# - C# - C# - C - C# - C# - C - C - C - C# - C# - C
+Lead score (how many semitone steps in this lead squared): 33
